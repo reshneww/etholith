@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etholith Research</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1d2021;
+            --surface: #282828;
+            --surface-2: #32302f;
+            --border: rgba(168,153,132,0.12);
+            --border-hover: rgba(168,153,132,0.25);
+            --text: #ebdbb2;
+            --text-muted: #7c6f64;
+            --text-dim: #a89984;
+            --accent: #d65d0e;
+            --accent-dim: rgba(214,93,14,0.12);
+            --online: #98971a;
+            --idle: #d79921;
+            --dnd: #cc241d;
+            --offline: #7c6f64;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-sans: sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+
+
+        /* ── HEADER ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+            height: 64px;
+            background: rgba(29,32,33,0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo img {
+            height: 132px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--text); }
+
+        .btn-contact {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--bg);
+            background: var(--accent);
+            border: none;
+            padding: 0.55rem 1.4rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-contact:hover { opacity: 0.85; }
+
+        /* ── MAIN ── */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 9rem 0 7rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--text-muted);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            margin-bottom: 2.5rem;
+            max-width: 16ch;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-body {
+            max-width: 56ch;
+        }
+
+        .hero-body p {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.85;
+            color: var(--text-dim);
+            margin-bottom: 1.2rem;
+        }
+
+        /* ── TEAM SECTION ── */
+        .team-section {
+            padding: 7rem 0;
+        }
+
+        .team-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 3.5rem;
+            color: var(--text);
+        }
+
+        /* ── MEMBER CARD ── */
+        .member-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-wrap img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: block;
+            background: var(--surface-2);
+        }
+
+        .status-ring {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+        }
+
+        .status-ring.online  { background: var(--online); }
+        .status-ring.idle    { background: var(--idle); }
+        .status-ring.dnd     { background: var(--dnd); }
+        .status-ring.offline { background: var(--offline); }
+
+        .member-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .member-status {
+            font-family: var(--font-sans);
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── LOADING STATE ── */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .loading-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.8rem 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            margin-bottom: 2px;
+        }
+
+        .skeleton-avatar { width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0; }
+        .skeleton-lines { flex: 1; }
+        .skeleton-line { height: 12px; margin-bottom: 8px; }
+        .skeleton-line.short { width: 40%; }
+        .skeleton-line.long  { width: 65%; }
+
+        /* ── ERROR STATE ── */
+        .error-card {
+            padding: 1.5rem 2rem;
+            background: var(--surface);
+            border: 1px solid rgba(237,66,69,0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .error-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dnd); flex-shrink: 0; }
+
+        .error-text {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo img {
+            height: 22px;
+            width: auto;
+            opacity: 0.6;
+        }
+
+        .footer-copy {
+            font-family: var(--font-sans);
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* ── ENTRANCE ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero           { animation: fadeUp 0.7s ease both; }
+        .section-label  { animation: fadeUp 0.5s 0.1s ease both; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            header { padding: 0 1.5rem; }
+            main   { padding: 0 1.5rem; }
+            footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+            nav    { display: none; }
+            .member-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .member-right { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="https://cdn.discordapp.com/attachments/1422239404948459532/1480305589698429109/20260309_002634.png?ex=69af3183&is=69ade003&hm=35139a1121a378caf656cfad54faedbd0152157ab660a0e0a7c75ece4a703f78" alt="Etholith"></div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#team">Team</a>
+            <a href="#">Research</a>
+        </nav>
+        <button class="btn-contact">Contact</button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="section-label">About</div>
+            <h1>We build machines that take <em>mathematics</em> seriously</h1>
+            <div class="hero-body">
+                <p>
+                   Etholith is a research group working at the intersection of artificial intelligence and formal mathematical reasoning. We believe the next frontier in AI is not more data or more parameters, but deeper grounding in the structures that make reasoning reliable.
+                </p>
+
+            </div>
+        </section>
+
+        <section id="team" class="team-section">
+            <div class="section-label">Our Team</div>
+            <h2>The Heroes</h2>
+
+            <div id="team-grid">
+                <!-- Loading placeholders -->
+                <div class="loading-card">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div class="skeleton-lines">
+                        <div class="skeleton skeleton-line long"></div>
+                        <div class="skeleton skeleton-line short"></div>
+                    </div>
+                </div>
+                <div class="loading-card">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div class="skeleton-lines">
+                        <div class="skeleton skeleton-line long"></div>
+                        <div class="skeleton skeleton-line short"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+         const TEAM_MEMBERS = [
+            {
+                discordId: "796651776073531402",       // ← Gerçek Discord ID ile değiştirin
+                displayName: "Lead Architect",
+                role: "Core Systems",
+                fallbackActivity: "Developing agc-lang/compiler"
+            },
+        ];
+        // ─────────────────────────────────────────────────────────────
+
+        const STATUS_MAP = {
+            online:  { label: "Online",           class: "online"  },
+            idle:    { label: "Idle",              class: "idle"    },
+            dnd:     { label: "Do Not Disturb",    class: "dnd"     },
+            offline: { label: "Offline",           class: "offline" },
+        };
+
+        function getAvatarUrl(discordId, avatarHash) {
+            if (avatarHash) {
+                const ext = avatarHash.startsWith("a_") ? "gif" : "png";
+                return `https://cdn.discordapp.com/avatars/${discordId}/${avatarHash}.${ext}?size=128`;
+            }
+            // Default Discord avatar (modulo 5)
+            const index = (BigInt(discordId) >> 22n) % 6n;
+            return `https://cdn.discordapp.com/embed/avatars/${index}.png`;
+        }
+
+        function getActivityText(lanyardData) {
+            // Özel durum → Spotify → Oyun → Uygulama → null
+            if (lanyardData.listening_to_spotify && lanyardData.spotify) {
+                const s = lanyardData.spotify;
+                return `Listening: ${s.song} — ${s.artist}`;
+            }
+            const activities = lanyardData.activities || [];
+            const game = activities.find(a => a.type === 0);
+            if (game) return `Playing: ${game.name}`;
+            const custom = activities.find(a => a.type === 4);
+            if (custom && custom.state) return custom.state;
+            return null;
+        }
+
+        function buildCard(member, lanyardData, error) {
+            const card = document.createElement("div");
+            card.className = "member-card";
+
+            let statusClass = "offline";
+            let statusLabel = "Offline";
+            let displayName = member.displayName;
+            let avatarSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.displayName)}&background=282828&color=d65d0e&size=128`;
+
+            if (!error && lanyardData) {
+                const status = lanyardData.discord_status || "offline";
+                statusClass = STATUS_MAP[status]?.class || "offline";
+                statusLabel = STATUS_MAP[status]?.label || "Offline";
+                if (lanyardData.discord_user?.avatar) {
+                    avatarSrc = getAvatarUrl(member.discordId, lanyardData.discord_user.avatar);
+                }
+                if (lanyardData.discord_user?.global_name || lanyardData.discord_user?.username) {
+                    displayName = lanyardData.discord_user.global_name || lanyardData.discord_user.username;
+                }
+            }
+
+            card.innerHTML = `
+                <div class="avatar-wrap">
+                    <img src="${avatarSrc}" alt="${escapeHtml(member.displayName)}" loading="lazy">
+                    <span class="status-ring ${statusClass}" title="${statusLabel}"></span>
+                </div>
+                <div>
+                    <div class="member-name">${escapeHtml(displayName)}</div>
+                    <div class="member-status">${statusLabel}</div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+        }
+
+        async function fetchMemberStatus(member) {
+            // DISCORD_ID placeholder kontrolü
+            if (member.discordId.startsWith("DISCORD_ID")) {
+                return { data: null, error: true };
+            }
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${member.discordId}`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const json = await res.json();
+                if (!json.success) throw new Error("Lanyard error");
+                return { data: json.data, error: false };
+            } catch (e) {
+                console.warn(`[Etholith] Lanyard fetch failed for ${member.discordId}:`, e.message);
+                return { data: null, error: true };
+            }
+        }
+
+        async function renderTeam() {
+            const grid = document.getElementById("team-grid");
+
+            const results = await Promise.allSettled(
+                TEAM_MEMBERS.map(m => fetchMemberStatus(m))
+            );
+
+            grid.innerHTML = "";
+
+            TEAM_MEMBERS.forEach((member, i) => {
+                const result = results[i];
+                const { data, error } = result.status === "fulfilled"
+                    ? result.value
+                    : { data: null, error: true };
+
+                const card = buildCard(member, data, error);
+                // Staggered animation
+                card.style.animationDelay = `${i * 80}ms`;
+                card.style.animation = `fadeUp 0.5s ${i * 80}ms ease both`;
+                grid.appendChild(card);
+            });
+
+            // Eğer tüm ID'ler placeholder ise bilgi notu ekle
+            const allPlaceholder = TEAM_MEMBERS.every(m => m.discordId.startsWith("DISCORD_ID"));
+            if (allPlaceholder) {
+                const note = document.createElement("div");
+                note.className = "error-card";
+                note.style.marginTop = "8px";
+                note.innerHTML = `
+                    <div class="error-dot"></div>
+                    <div class="error-text">
+                        Discord live status inactive — replace DISCORD_ID placeholders in TEAM_MEMBERS config to enable Lanyard integration.
+                    </div>
+                `;
+                grid.appendChild(note);
+            }
+        }
+
+        // İlk yükleme
+        renderTeam();
+
+        // Her 30 saniyede bir durum güncelle (Lanyard polling)
+        setInterval(renderTeam, 30_000);
+    </script>
+</body>
+</html>
